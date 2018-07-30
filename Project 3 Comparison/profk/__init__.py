@@ -44,6 +44,8 @@ class Dataset(object):
         defined = relevant.dropna()
         
         X, y = np.array(defined[feature_names]), np.array(defined[target_name])
+        y = y.reshape(len(y), ) # ravel warnings otherwise
+        
         return X, y
 
 
