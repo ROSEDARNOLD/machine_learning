@@ -20,9 +20,9 @@ from sklearn.linear_model import LinearRegression
 
 # Since there are some semantic differences between the way we approach working with 
 # datasets based on the problem pace (inferential statistics vs structural modeling) 
-# we instantiate an object to deal with features of both.  Since we aren't amending the sklearn API
-# We can take the methods of 'fit' and 'predict' as a given; Whatever this class outputs
-# should be directly passed to fit metods -> must yield X, y
+# we instantiate an object to deal with features of both.  Since we aren't amending the sklearn API,
+# we can take the methods of 'fit' and 'predict' as a given; Whatever this class outputs
+# should be directly passed to fit methods -> must yield X, y
 
 class Dataset(object):
     
@@ -30,7 +30,14 @@ class Dataset(object):
         
         # since we are taking subsets later, no reason not to include a constant now
         
-        data.insert(0, column='c', value=1)  # Insert throws an exception upon re-run -> data['c'] = 1... bring to front of df
+        try:
+            
+            data.insert(0, column='c', value=1)  # Insert throws an exception upon re-run -> data['c'] = 1... bring to front of df
+            
+        except(ValueError):
+            
+            data['c'] = [1 for i in data['c']] 
+        
         self.data = data
         
     # When do I drop n/a?
@@ -52,6 +59,9 @@ class Dataset(object):
 # In[ ]:
 
 class Selector():
+       
+        # Strange import issue causes the ModelSelection procedure to return the same cv scores for every fold;
+        # Define/Instantiate this class in the appropiate notebook
         
     '''Non-operational bag of Methods for selecting between model types and feature inputs given a model.  Parent of the
     operant classes GenericClassifier and GenericRegressor'''    
